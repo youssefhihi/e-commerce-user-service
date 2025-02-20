@@ -6,6 +6,6 @@ public record FullName(
         @NotBlank(message = "Full name is required.")
         String firstName,
         @NotBlank(message = "Full name is required.")
-        String lasTName
+        String lastName
 ) {
 }
