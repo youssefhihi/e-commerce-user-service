@@ -2,6 +2,7 @@ package com.ys.ecommerce.api.controller;
 
 import com.ys.ecommerce.api.helper.ApiResponse;
 import com.ys.ecommerce.dto.request.UpdateProfileRequestDto;
+import com.ys.ecommerce.dto.request.UserRegisterRequestDto;
 import com.ys.ecommerce.dto.response.UserResponseDto;
 import com.ys.ecommerce.model.entity.User;
 import com.ys.ecommerce.service.UserService;
@@ -26,5 +27,11 @@ public class UserController {
     public ResponseEntity<ApiResponse<UserResponseDto>> updateProfile(@Validated @RequestBody UpdateProfileRequestDto requestDto) {
         UserResponseDto user = service.updateProfile(1L,requestDto);
         return ResponseEntity.ok(ApiResponse.success(user,"Profile updated successfully",200));
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<ApiResponse<UserResponseDto>> register(@Validated @RequestBody UserRegisterRequestDto requestDto) {
+        UserResponseDto user = service.register(requestDto);
+        return ResponseEntity.ok(ApiResponse.success(user,"Account Created successfully",200));
     }
 }
