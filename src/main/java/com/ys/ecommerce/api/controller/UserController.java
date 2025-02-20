@@ -6,6 +6,7 @@ import com.ys.ecommerce.dto.request.UserRegisterRequestDto;
 import com.ys.ecommerce.dto.response.UserResponseDto;
 import com.ys.ecommerce.model.entity.User;
 import com.ys.ecommerce.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -23,14 +24,14 @@ public class UserController {
         return "hiiiiiiiii it wooooorks";
     }
 
-    @PutMapping("update-profile")
-    public ResponseEntity<ApiResponse<UserResponseDto>> updateProfile(@Validated @RequestBody UpdateProfileRequestDto requestDto) {
+    @PutMapping("/update-profile")
+    public ResponseEntity<ApiResponse<UserResponseDto>> updateProfile(@Valid @RequestBody UpdateProfileRequestDto requestDto) {
         UserResponseDto user = service.updateProfile(1L,requestDto);
         return ResponseEntity.ok(ApiResponse.success(user,"Profile updated successfully",200));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<UserResponseDto>> register(@Validated @RequestBody UserRegisterRequestDto requestDto) {
+    public ResponseEntity<ApiResponse<UserResponseDto>> register(@Valid @RequestBody UserRegisterRequestDto requestDto) {
         UserResponseDto user = service.register(requestDto);
         return ResponseEntity.ok(ApiResponse.success(user,"Account Created successfully",200));
     }

@@ -3,6 +3,8 @@ package com.ys.ecommerce.service.impl;
 import com.ys.ecommerce.dto.request.UpdateProfileRequestDto;
 import com.ys.ecommerce.dto.request.UserRegisterRequestDto;
 import com.ys.ecommerce.dto.response.UserResponseDto;
+import com.ys.ecommerce.exception.UserNameOrEmailAlreadyExistException;
+import com.ys.ecommerce.exception.UserNotFoundException;
 import com.ys.ecommerce.mapper.UserMapper;
 import com.ys.ecommerce.model.entity.User;
 import com.ys.ecommerce.model.enums.UserRole;
@@ -36,8 +38,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto register(UserRegisterRequestDto requestDto) {
-        repository.findByEmail(requestDto.email()).orElseThrow();
-        repository.findByUsername(requestDto.username()).orElseThrow();
+        repository.findByEmail(requestDto.email())
+                .ifPresent(user -> {
+                    throw new UserNameOrEmailAlreadyExistException(requestDto.email());
+                });
+        repository.findByUsername(requestDto.username())
+                .ifPresent(user -> {
+                    throw new UserNameOrEmailAlreadyExistException(requestDto.username());
+                });
+
         User user =User.builder()
                 .username(requestDto.username())
                 .fullName(requestDto.fullName())
